@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Joi = require('joi');
 const { flashcardSchema } = require('./flashcard');
-const { string } = require('joi');
+
 
 const collectionSchema = new mongoose.Schema({
     name: { type: String, required: true },
@@ -19,3 +19,4 @@ function validateCollection(collection) {
 
 exports.Collection = Collection;
 exports.validate = validateCollection;
+exports.collectionSchema = collectionSchema;

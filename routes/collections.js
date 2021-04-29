@@ -3,7 +3,7 @@ const { Flashcard, validate } = require('../models/flashcard');
 const express = require('express');
 const router = express.Router();
 
-router.get('/', async (req,res) => {
+router.get('/', async (req, res) => {
     try {
         const collections = await Collection.find();
         return res.send(collections);
@@ -12,9 +12,24 @@ router.get('/', async (req,res) => {
     }
 });
 
+router.get('/:id', async (req, res) => {
+    try {
+        const collection = await Collection.findById(req.params.id);
+
+        if (!collection)
+            return res.status(400).send('The collection with id "${req.params.id}" does not exist.');
+
+            return res.send(collection);
+
+    } catch (ex) {
+        return res.status(500).send('Internal Server Error: ${ex}');
+    }
+});
+
+
 router.post('/:collectionId/cardcollection/:flashcardId', async (req, res) => {
     try{
-        const collection = await Collection.findById(req.params.userId);
+        const collection = await Collection.findById(req.params.collectionId);
         if (!collection) return res.status(400).send('The collection with id "${req.params.collectionId}" does not exist');
 
         const flashcard = await Flashcard.findById(req.params.flashcardId);
@@ -29,12 +44,14 @@ router.post('/:collectionId/cardcollection/:flashcardId', async (req, res) => {
     }
 });
 
-router.put('/:collectionid/cardcollection/:flashcardId', async (req, res) => {
+
+
+router.put('/:collectionId/cardcollection/:flashcardId', async (req, res) => {
     try { 
         const { error } = validate(req.body);
         if (error) return res.status(400).send(error);
 
-        const collection = await Collection.findById(req.params.userId);
+        const collection = await Collection.findById(req.params.collectionId);
         if (!collection) return res.status(400).send('The collection with id "${req.params.collectionId}" does not exist.');
 
         const flashcard = collection.cardCollection.id(req.params.flashcardId);
@@ -53,7 +70,8 @@ router.put('/:collectionid/cardcollection/:flashcardId', async (req, res) => {
     }
 });
 
-router.delete('/:collectionId/cardcollection/flashcardId', async (req, res) => {
+
+router.delete('/:collectionId/cardcollection/:flashcardId', async (req, res) => {
     try { 
 
         const collection = await Collection.findById(req.params.collectionId);
@@ -84,6 +102,22 @@ router.delete('/:collectionId', async (req, res) => {
     }
 });
 
+router.post('/', async (req, res) => {
+    try {
+        // const { error } = validate(req.body);
+        // if (error)
+        //     return res.status(400).send(error);
 
+        const collection = new Collection({
+            name: req.body.name,
+        });
+        
+        await collection.save();
+
+        return res.send(collection);
+    }catch (ex) {
+        return res.status(500).send('Internal Server Error: ',"${ex}")
+    }
+});
 
 module.exports = router;
