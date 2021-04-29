@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Joi = require('joi');
-const { flashcardSchema } = require('./flaschard');
+const { flashcardSchema } = require('./flashcard');
 const { string } = require('joi');
 
 const collectionSchema = new mongoose.Schema({

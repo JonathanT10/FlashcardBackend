@@ -8,6 +8,7 @@ connectDB();
 
 app.use(express.json());
 app.use('/api/flashcards', flashcards);
+app.use('/api/collections', collections);
 
 
 const port = process.env.Port || 5000;
