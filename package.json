@@ -1,0 +1,23 @@
+{
+  "name": "flashcardbackend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JonathanT10/FlashcardBackend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JonathanT10/FlashcardBackend/issues"
+  },
+  "homepage": "https://github.com/JonathanT10/FlashcardBackend#readme",
+  "dependencies": {
+    "config": "^3.3.6",
+    "mongoose": "^5.12.6"
+  }
+}
