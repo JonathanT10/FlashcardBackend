@@ -2,6 +2,32 @@ const { Flashcard, validate } = require('../models/flashcard');
 const express = require('express');
 const router = express.Router();
 
+
+router.get('/', async (req, res) => {
+    try {
+        const flashcards = await Flashcard.find();
+        return res.send(flashcards);
+    } catch (ex) {
+        return res.status(500).send('Internal Server Error: ${ex}');
+    }
+});
+
+router.get('/:id', async (req, res) => {
+    try {
+
+        const flashcard = await Flashcard.findById(req.params.id);
+
+        if (!flashcard)
+            return res.status(400).send('The flashcard with id "${req.params.id}" does not exist.');
+
+            return res.send(flashcard);
+        
+    } catch (ex) {
+        return res.status(500).send('Internal Server Error: ${ex}');
+    }
+}); 
+
+
 router.post('/', async (req, res) => {
     try {
         const { error } = validate(req.body);
@@ -17,12 +43,13 @@ router.post('/', async (req, res) => {
 
         await flashcard.save();
 
-        return res.send(product);
+        return res.send(flashcard);
 
     }catch (ex) {
         return res.status(500).send('Internal Server Error: ${ex}');
     }
 });
+
 
 
 module.exports = router;

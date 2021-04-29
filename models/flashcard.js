@@ -18,7 +18,7 @@ function validateFlashcard(flashcard) {
         front: Joi.string().min(2).max(500).required(),
         back: Joi.string().min(2).max(500).required(),
     });
-    return schema.validate(flaschard);
+    return schema.validate(flashcard);
 }
 
 exports.Flashcard = Flashcard;
